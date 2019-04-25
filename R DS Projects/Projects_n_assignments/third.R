@@ -1,0 +1,10 @@
+fileUrl <- "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Frestaurants.xml"
+download.file(fileUrl,destfile="rest.xml")
+install.packages("XML")
+library("XML")
+#doc <- xmlTreeParse(fileUrl,useInternalNodes = TRUE)
+doc <- xmlParse("rest.xml")
+rootNode <- xmlRoot(doc)
+xmlName(rootNode)
+vec <- xpathSApply(rootNode,"//zipcode",xmlValue)
+table(vec)

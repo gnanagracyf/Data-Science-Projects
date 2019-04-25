@@ -1,0 +1,65 @@
+rankhospital <- function(state, outcome, num = "best") {
+        ## Read outcome data
+        outcomedf <- read.csv("outcome-of-care-measures.csv", colClasses = "character" ,na.strings="Not Available", stringsAsFactors=FALSE)
+        ## Check that state and outcome are valid
+        possible_outcome <- c("heart attack","heart failure","pneumonia")
+        
+        if (!state %in% outcomedf$State){
+                stop("invalid State")
+        }       
+        if (!outcome %in% possible_outcome){
+                stop("invalid outcome")
+        }
+        ## Return hospital name in that state with the given rank
+        ## 30-day death rate ( best is rank =1)
+        if (outcome == "heart attack"){
+                my_data <- c("Hospital.Name","State","Hospital.30.Day.Death..Mortality..Rates.from.Heart.Attack")
+                df <- outcomedf[my_data]
+                res_df <- df[df$State == state, ]
+                final_df <-  na.omit(res_df)
+                final_df$Hospital.30.Day.Death..Mortality..Rates.from.Heart.Attack <- as.numeric(final_df$Hospital.30.Day.Death..Mortality..Rates.from.Heart.Attack)
+                orderedData <- final_df[order(final_df$Hospital.30.Day.Death..Mortality..Rates.from.Heart.Attack,final_df$Hospital.Name), ]
+                
+                
+                
+        }
+        else if (outcome == "heart failure")
+        {
+                my_data <- c("Hospital.Name","State","Hospital.30.Day.Death..Mortality..Rates.from.Heart.Failure")
+                df <- outcomedf[my_data]
+                res_df <- df[df$State == state, ]
+                final_df <-  na.omit(res_df)
+                final_df$Hospital.30.Day.Death..Mortality..Rates.from.Heart.Failure <- as.numeric(final_df$Hospital.30.Day.Death..Mortality..Rates.from.Heart.Failure)
+                orderedData <- final_df[order(final_df$Hospital.30.Day.Death..Mortality..Rates.from.Heart.Failure,final_df$Hospital.Name), ]
+                
+                
+        }
+        else{
+                my_data <- c("Hospital.Name","State","Hospital.30.Day.Death..Mortality..Rates.from.Pneumonia")
+                df <- outcomedf[my_data]
+                res_df <- df[df$State == state, ]
+                final_df <-  na.omit(res_df)
+                final_df$Hospital.30.Day.Death..Mortality..Rates.from.Pneumonia <- as.numeric(final_df$Hospital.30.Day.Death..Mortality..Rates.from.Pneumonia)
+                orderedData <- final_df[order(final_df$Hospital.30.Day.Death..Mortality..Rates.from.Pneumonia,final_df$Hospital.Name), ]
+                
+                
+        }
+        n <- nrow(orderedData)
+        
+        if ( num == "best"){
+                #print("best")
+                result <- orderedData$Hospital.Name[1]
+        }
+        else if (num == "worst"){
+                #print("worst")
+                result <- orderedData$Hospital.Name[n]
+        }
+        #else if ( num > n ){
+        #        result <- "NA"
+        #}
+        else
+                result <- orderedData$Hospital.Name[num]
+        
+        result
+        
+}

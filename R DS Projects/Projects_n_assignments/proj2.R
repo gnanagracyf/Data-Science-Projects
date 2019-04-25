@@ -1,0 +1,6 @@
+pmdata <- readRDS("summarySCC_PM25.rds")
+sccdata <- readRDS("Source_Classification_Code.rds")
+aggdata <- aggregate(pmdata$Emissions, by=list(pmdata$year) , FUN = sum , na.rm = TRUE)
+png(file="plot1.png")
+with(aggdata, plot(Group.1,x,type="l",xlab="Years",ylab="Total Emissions ( tons )",col="red",lwd=3,main = "Total PM2.5 Emissions over the years",xlim=c(1999,2008),lty="dotted") )
+dev.off()

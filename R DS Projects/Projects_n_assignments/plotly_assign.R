@@ -1,0 +1,6 @@
+library(plotly)
+GDP_Australia <- c(3.7, 1.8, 2.0, 2.4, 3.6, 2.6, 2.6, 2.4)
+GDP_China <- c(9.7, 9.4 ,10.6, 9.5, 7.9, 7.8, 7.3, 6.9)
+time <- c(2008,2009,2010,2011,2012,2013,2014,2015)
+#plot_ly(x = ~GDP_Australia, y = ~GDP_China, z =~time, type="scatter3d", color=~time)
+plot_ly(x = ~GDP_Australia, y = ~time, type="histogram2dcontour") %>% layout(title = paste("Australia's GDP Rate , Created on", date())
